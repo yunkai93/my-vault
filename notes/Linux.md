@@ -123,7 +123,6 @@ sudo systemctl start mihomo
 # 端口
 # 127.0.0.1:7890  本机 mixed 代理端口
 # 127.0.0.1:9090  Web 面板
-# 0.0.0.0:1053    DNS
 
 # 查看当前面板地址和密钥
 clashui
@@ -148,24 +147,11 @@ env | grep -i '_proxy='
 - 通过 `systemd` 管理，服务名 `mihomo`
 - `wuchao` 的 `.bashrc` 已启用 `watch_proxy`，新 SSH 进入交互式 shell 会自动带上代理环境变量
 - 不是全机透明代理，**是 shell / 命令行程序通过 `127.0.0.1:7890` 进入 mihomo，再由规则分流**
-- 当前规则验证通过：`github.com` 走代理，`www.baidu.com` 走 `DIRECT`
-
-常用测试：
-```
-curl https://github.com
-curl https://www.baidu.com
-git ls-remote https://github.com/openai/openai-python.git HEAD
-```
 
 如果某个命令没有自动走环境变量，可以显式指定：
 ```
 curl --proxy http://127.0.0.1:7890 https://github.com
 git -c http.proxy=http://127.0.0.1:7890 clone https://github.com/xxx/yyy.git
-```
-
-面板本机访问：
-```
-ssh -L 9090:127.0.0.1:9090 wuchao@服务器IP
 ```
 
 浏览器打开：
