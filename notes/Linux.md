@@ -1,3 +1,7 @@
+---
+updated: 2026-05-14
+---
+
 # Linux
 
 > [!note]
@@ -106,4 +110,114 @@ curl -O https://nodejs.org/dist/v24.15.0/node-v24.15.0-linux-x64.tar.xz
 sudo tar -xJf node-v24.15.0-linux-x64.tar.xz -C /usr/local --strip-components=1
 npm config set registry https://registry.npmmirror.com
 npm config get registry
+```
+
+## 服务器代理（mihomo）
+```
+# 服务状态
+sudo systemctl status mihomo
+sudo systemctl restart mihomo
+sudo systemctl stop mihomo
+sudo systemctl start mihomo
+
+# 端口
+# 127.0.0.1:7890  本机 mixed 代理端口
+# 127.0.0.1:9090  Web 面板
+# 0.0.0.0:1053    DNS
+
+# 查看当前面板地址和密钥
+clashui
+clashsecret
+
+# 当前 shell 开启代理环境
+clashon
+
+# 当前 shell 关闭/开启代理环境变量，不停服务
+clashproxy off
+clashproxy on
+
+# 停掉后台代理服务
+clashoff
+
+# 查看当前 shell 是否已经带代理
+env | grep -i '_proxy='
+```
+
+当前这套的状态：
+- `mihomo` 安装在 `/home/wuchao/apps/clashctl`
+- 通过 `systemd` 管理，服务名 `mihomo`
+- `wuchao` 的 `.bashrc` 已启用 `watch_proxy`，新 SSH 进入交互式 shell 会自动带上代理环境变量
+- 不是全机透明代理，**是 shell / 命令行程序通过 `127.0.0.1:7890` 进入 mihomo，再由规则分流**
+- 当前规则验证通过：`github.com` 走代理，`www.baidu.com` 走 `DIRECT`
+
+常用测试：
+```
+curl https://github.com
+curl https://www.baidu.com
+git ls-remote https://github.com/openai/openai-python.git HEAD
+```
+
+如果某个命令没有自动走环境变量，可以显式指定：
+```
+curl --proxy http://127.0.0.1:7890 https://github.com
+git -c http.proxy=http://127.0.0.1:7890 clone https://github.com/xxx/yyy.git
+```
+
+面板本机访问：
+```
+ssh -L 9090:127.0.0.1:9090 wuchao@服务器IP
+```
+
+浏览器打开：
+```
+http://127.0.0.1:9090/ui
+```
+
+订阅更新方式（当前不是服务器直连订阅，而是本地导出的 YAML 快照）：
+```
+# 导出的配置放在这里
+/home/wuchao/apps/clashctl/resources/imported/clash-verge.yaml
+
+# 覆盖文件后刷新订阅
+bash -lc '. /home/wuchao/apps/clashctl/scripts/cmd/clashctl.sh && clashsub update 1'
+```
+
+## tmux 与 [[Codex]]
+```
+# 新建一个 tmux 会话
+tmux new -s codex
+
+# 新建但先不进入
+tmux new -d -s codex
+
+# 查看会话
+tmux ls
+
+# 接回会话
+tmux attach -t codex
+```
+
+在 tmux 里临时离开：
+- 先按 `Ctrl+b`
+- 全松开
+- 再按 `d`
+
+区别：
+- `tmux`：保留原来的终端和正在跑的程序
+- `codex resume --last`：恢复 Codex 对话上下文，但不是接回原来的终端画面
+
+典型工作流：
+```
+tmux new -s codex
+codex
+```
+
+断开 SSH 之后，回到服务器再接回：
+```
+tmux attach -t codex
+```
+
+如果只是想继续最近一次 Codex 会话上下文：
+```
+codex resume --last
 ```
