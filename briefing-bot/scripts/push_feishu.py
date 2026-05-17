@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from briefing_view import compact_digest
+from briefing_view import build_brief_card, load_brief
 from common import env
-from feishu_app import enabled, send_text_to_chat
+from feishu_app import enabled, send_card_to_chat
 
 
 def main() -> int:
@@ -12,7 +12,7 @@ def main() -> int:
     if not chat_id:
         return 0
 
-    send_text_to_chat(chat_id, compact_digest())
+    send_card_to_chat(chat_id, build_brief_card(load_brief()))
     return 0
 
 

@@ -35,7 +35,7 @@ def rerun_briefing() -> str:
     proc = subprocess.run(cmd, cwd=str(BOT_ROOT.parent), text=True, capture_output=True)
     if proc.returncode != 0:
         return "重跑失败，请稍后查看服务器日志。"
-    return "早报已重跑并尝试推送到群里。"
+    return "早报已重跑，最新卡片已推送到群里。"
 
 
 def handle_group_message(message_id: str, user_text: str) -> None:

@@ -134,3 +134,83 @@ def latest_take(brief: dict | None = None) -> str:
 def full_brief_text(brief: dict | None = None) -> str:
     data = brief or load_brief()
     return latest_news_block(latest_date(data))[:3500]
+
+
+def _card_line(title: str, summary: str, url: str = "") -> str:
+    head = title.strip()
+    body = summary.strip()
+    line = f"• **{head}**"
+    if body:
+        line += f"\n{body}"
+    if url:
+        line += f"\n[查看原文]({url})"
+    return line
+
+
+def build_brief_card(brief: dict | None = None) -> dict:
+    data = brief or load_brief()
+    date = latest_date(data)
+    updated = data.get("updated_at", "")
+    elements: list[dict] = [
+        {
+            "tag": "markdown",
+            "content": f"**AI早报 {date}**\n更新时间：{updated}" if updated else f"**AI早报 {date}**",
+        },
+        {
+            "tag": "hr",
+        },
+        {
+            "tag": "markdown",
+            "content": f"**今日判断**\n{data.get('today_take', '暂无。')}",
+        },
+    ]
+
+    section_map = [
+        ("Agent Watch", data.get("agent_watch", []), 2),
+        ("Model Watch", data.get("model_watch", []), 1),
+        ("Design x AI", data.get("design_ai", []), 1),
+        ("快速雷达", data.get("quick_radar", []), 2),
+    ]
+    for title, entries, limit in section_map:
+        if not entries:
+            continue
+        lines = [_card_line(entry.get("title", ""), entry.get("summary", ""), entry.get("url", "")) for entry in entries[:limit]]
+        lines = [line for line in lines if line.strip()]
+        if not lines:
+            continue
+        elements.extend(
+            [
+                {"tag": "hr"},
+                {"tag": "markdown", "content": f"**{title}**\n" + "\n\n".join(lines)},
+            ]
+        )
+
+    follow_up = data.get("follow_up", [])
+    if follow_up:
+        elements.extend(
+            [
+                {"tag": "hr"},
+                {"tag": "markdown", "content": "**值得跟进**\n" + "\n".join(f"• {item}" for item in follow_up[:2])},
+            ]
+        )
+
+    sources = data.get("sources_used", [])
+    if sources:
+        elements.extend(
+            [
+                {"tag": "hr"},
+                {"tag": "markdown", "content": "来源：" + " / ".join(sources)},
+            ]
+        )
+
+    return {
+        "config": {"wide_screen_mode": True, "enable_forward": True},
+        "header": {
+            "title": {
+                "tag": "plain_text",
+                "content": f"AI早报 {date}",
+            },
+            "template": "blue",
+        },
+        "elements": elements,
+    }

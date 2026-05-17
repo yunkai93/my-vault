@@ -21,6 +21,14 @@ def text_content(text: str) -> str:
 
 
 def send_text_to_chat(chat_id: str, text: str) -> dict:
+    return send_message_to_chat(chat_id, "text", text_content(text))
+
+
+def send_card_to_chat(chat_id: str, card: dict) -> dict:
+    return send_message_to_chat(chat_id, "interactive", json.dumps(card, ensure_ascii=False))
+
+
+def send_message_to_chat(chat_id: str, msg_type: str, content: str) -> dict:
     client = build_client()
     request = (
         CreateMessageRequest.builder()
@@ -28,8 +36,8 @@ def send_text_to_chat(chat_id: str, text: str) -> dict:
         .request_body(
             CreateMessageRequestBody.builder()
             .receive_id(chat_id)
-            .msg_type("text")
-            .content(text_content(text))
+            .msg_type(msg_type)
+            .content(content)
             .uuid(new_uuid())
             .build()
         )
