@@ -1,12 +1,17 @@
 [Unit]
-Description=AI briefing bot
+Description=Feishu app bot reply service
 After=network-online.target
 Wants=network-online.target
 
 [Service]
-Type=oneshot
+Type=simple
 WorkingDirectory=/home/wuchao/ai/my-vault
-ExecStart=/home/wuchao/ai/my-vault/briefing-bot/.venv/bin/python /home/wuchao/ai/my-vault/briefing-bot/scripts/run_briefing.py
+ExecStart=/home/wuchao/ai/my-vault/briefing-bot/.venv/bin/python /home/wuchao/ai/my-vault/briefing-bot/scripts/feishu_reply.py
+Restart=always
+RestartSec=5
 User=wuchao
 Environment=HOME=/home/wuchao
 Environment=PATH=/home/wuchao/ai/my-vault/briefing-bot/.venv/bin:/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=multi-user.target
