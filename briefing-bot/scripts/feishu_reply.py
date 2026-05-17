@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import subprocess
 import threading
+import traceback
 
 import lark_oapi as lark
 from lark_oapi.api.im.v1 import P2ImMessageReceiveV1
@@ -9,7 +10,7 @@ from lark_oapi.api.im.v1 import P2ImMessageReceiveV1
 from briefing_view import help_text, normalize_command
 from chat_agent import ask_safe
 from common import BOT_ROOT, env, now_cst, set_env_values
-from feishu_app import build_client, reply_text
+from feishu_app import build_client, reply_text, send_text_to_chat
 
 LOG_FILE = BOT_ROOT / "logs" / "feishu-reply.log"
 
@@ -42,20 +43,30 @@ def handle_group_message(message_id: str, user_text: str) -> None:
     command = normalize_command(user_text)
     if any(key in command for key in ["帮助", "help", "指令", "命令"]):
         reply_text(message_id, help_text())
+        log_line(f"{now_cst().isoformat()} replied group help: {message_id}")
         return
     if "重跑" in command and "早报" in command:
         reply_text(message_id, rerun_briefing())
+        log_line(f"{now_cst().isoformat()} replied group rerun: {message_id}")
         return
     reply_text(message_id, help_text())
+    log_line(f"{now_cst().isoformat()} replied group fallback: {message_id}")
 
 
-def handle_p2p_message(message_id: str, user_text: str) -> None:
+def handle_p2p_message(chat_id: str, message_id: str, user_text: str) -> None:
     answer = ask_safe(user_text)
-    reply_text(message_id, answer)
+    send_text_to_chat(chat_id, answer)
+    log_line(f"{now_cst().isoformat()} replied p2p: {message_id}")
 
 
 def dispatch_async(target, *args) -> None:
-    thread = threading.Thread(target=target, args=args, daemon=True)
+    def runner() -> None:
+        try:
+            target(*args)
+        except Exception as exc:
+            log_line(f"{now_cst().isoformat()} async error: {exc}")
+            log_line(traceback.format_exc())
+    thread = threading.Thread(target=runner, daemon=True)
     thread.start()
 
 
@@ -75,7 +86,7 @@ def do_p2_im_message_receive_v1(data: P2ImMessageReceiveV1) -> None:
         reply_text(data.event.message.message_id, "消息解析失败，请发送文本消息。")
         return
     if data.event.message.chat_type == "p2p":
-        dispatch_async(handle_p2p_message, data.event.message.message_id, user_text)
+        dispatch_async(handle_p2p_message, data.event.message.chat_id, data.event.message.message_id, user_text)
     else:
         dispatch_async(handle_group_message, data.event.message.message_id, user_text)
     log_line(f"{now_cst().isoformat()} accepted {data.event.message.message_id}: {user_text}")

@@ -10,6 +10,22 @@
       "category": "ai"
     },
     {
+      "id": "the_neuron",
+      "name": "The Neuron",
+      "type": "html_json",
+      "url": "https://www.theneurondaily.com/archive",
+      "enabled": true,
+      "category": "ai"
+    },
+    {
+      "id": "superhuman_ai",
+      "name": "Superhuman AI",
+      "type": "html_json",
+      "url": "https://www.superhuman.ai/archive",
+      "enabled": true,
+      "category": "ai"
+    },
+    {
       "id": "tldr_ai",
       "name": "TLDR AI",
       "type": "html_list",
@@ -50,6 +66,14 @@
       "name": "AI in Design",
       "type": "html_feed",
       "url": "https://www.aidesignweekly.com/feed",
+      "enabled": true,
+      "category": "design"
+    },
+    {
+      "id": "toools_design",
+      "name": "TOOOLS",
+      "type": "html_json",
+      "url": "https://www.toools.design/newsletter",
       "enabled": true,
       "category": "design"
     },

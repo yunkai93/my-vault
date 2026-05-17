@@ -154,6 +154,10 @@ def build_brief_card(brief: dict | None = None) -> dict:
     elements: list[dict] = [
         {
             "tag": "markdown",
+            "content": f"<font color='grey'>每日 AI / Agent / 设计协作资讯</font>",
+        },
+        {
+            "tag": "markdown",
             "content": f"**AI早报 {date}**\n更新时间：{updated}" if updated else f"**AI早报 {date}**",
         },
         {
@@ -181,7 +185,8 @@ def build_brief_card(brief: dict | None = None) -> dict:
         elements.extend(
             [
                 {"tag": "hr"},
-                {"tag": "markdown", "content": f"**{title}**\n" + "\n\n".join(lines)},
+                {"tag": "markdown", "content": f"**{title}**"},
+                {"tag": "markdown", "content": "\n\n".join(lines)},
             ]
         )
 
@@ -190,7 +195,8 @@ def build_brief_card(brief: dict | None = None) -> dict:
         elements.extend(
             [
                 {"tag": "hr"},
-                {"tag": "markdown", "content": "**值得跟进**\n" + "\n".join(f"• {item}" for item in follow_up[:2])},
+                {"tag": "markdown", "content": "**值得跟进**"},
+                {"tag": "markdown", "content": "\n".join(f"• {item}" for item in follow_up[:2])},
             ]
         )
 
@@ -202,6 +208,17 @@ def build_brief_card(brief: dict | None = None) -> dict:
                 {"tag": "markdown", "content": "来源：" + " / ".join(sources)},
             ]
         )
+    elements.append(
+        {
+            "tag": "hr",
+        }
+    )
+    elements.append(
+        {
+            "tag": "markdown",
+            "content": "[在仓库中查看完整滚动早报](https://github.com/yunkai93/my-vault/blob/main/news/AI%E6%97%A9%E6%8A%A5.md)",
+        }
+    )
 
     return {
         "config": {"wide_screen_mode": True, "enable_forward": True},
@@ -210,7 +227,7 @@ def build_brief_card(brief: dict | None = None) -> dict:
                 "tag": "plain_text",
                 "content": f"AI早报 {date}",
             },
-            "template": "blue",
+            "template": "turquoise",
         },
         "elements": elements,
     }

@@ -31,7 +31,15 @@ def parse_dt(value: str | None) -> str | None:
         return dt.astimezone(timezone(timedelta(hours=8))).isoformat()
     except Exception:
         pass
-    for fmt in ("%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%dT%H:%M:%S.%f%z", "%Y-%m-%dT%H:%M:%S%z", "%Y-%m-%d"):
+    for fmt in (
+        "%Y-%m-%dT%H:%M:%S.%fZ",
+        "%Y-%m-%dT%H:%M:%S.%f%z",
+        "%Y-%m-%dT%H:%M:%S%z",
+        "%Y-%m-%d",
+        "%Y/%m/%d",
+        "%B %d, %Y",
+        "%b %d, %Y",
+    ):
         try:
             dt = datetime.strptime(value, fmt)
             if dt.tzinfo is None:
@@ -78,6 +86,23 @@ def within_window(iso_dt: str | None, hours: int) -> bool:
         return True
 
 
+def sort_key(item: dict) -> tuple[float, str, str]:
+    published = item.get("published_at")
+    if published:
+        try:
+            dt = datetime.fromisoformat(published)
+            return (dt.timestamp(), item.get("source_name") or "", item.get("title") or "")
+        except Exception:
+            pass
+    return (0.0, item.get("source_name") or "", item.get("title") or "")
+
+
+def normalize_title(text: str) -> str:
+    text = clean_text(text)
+    text = re.sub(r"^[^\w\u4e00-\u9fffA-Za-z]+", "", text)
+    return text.strip()
+
+
 def clean_text(text: str) -> str:
     text = unescape(text)
     text = re.sub(r"<[^>]+>", " ", text)
@@ -101,10 +126,10 @@ def fetch_rss(source: dict, hours: int) -> list[dict]:
                 "source_id": source["id"],
                 "source_name": source["name"],
                 "category": source["category"],
-                "title": title,
-                "url": link,
-                "published_at": pub,
-                "summary": desc[:320],
+                    "title": title,
+                    "url": link,
+                    "published_at": pub,
+                    "summary": desc[:320],
             }
         )
     return items
@@ -113,6 +138,97 @@ def fetch_rss(source: dict, hours: int) -> list[dict]:
 def fetch_html_json(source: dict, hours: int) -> list[dict]:
     text = fetch_text(source["url"])
     items: list[dict] = []
+    if source["id"] == "the_neuron":
+        pat = re.compile(r'<a[^>]+href="(/p/[^"]+)"[^>]*>.*?<time dateTime="([^"]+)">[^<]+</time>.*?<h2[^>]*>([^<]+)</h2>', re.S)
+        seen: set[str] = set()
+        for href, published, title in pat.findall(text):
+            if href in seen:
+                continue
+            seen.add(href)
+            url = f"https://www.theneurondaily.com{href}"
+            pub = parse_dt(published)
+            if not title or not within_window(pub, hours):
+                continue
+            try:
+                article = fetch_text(url)
+            except Exception:
+                article = ""
+            desc_match = re.search(r'<meta name="description" content="([^"]+)"', article)
+            items.append(
+                {
+                    "source_id": source["id"],
+                    "source_name": source["name"],
+                    "category": source["category"],
+                    "title": normalize_title(title),
+                    "url": url,
+                    "published_at": pub,
+                    "summary": clean_text(desc_match.group(1))[:320] if desc_match else "",
+                }
+            )
+            if len(items) >= 6:
+                break
+        return items
+    if source["id"] == "superhuman_ai":
+        cards = re.findall(r'<a href="(/p/[^"]+)" class="relative z-10 embla__slide__number">', text)
+        seen: set[str] = set()
+        for href in cards:
+            if href in seen:
+                continue
+            seen.add(href)
+            url = f"https://www.superhuman.ai{href}"
+            try:
+                article = fetch_text(url)
+            except Exception:
+                continue
+            title_match = re.search(r'<title>([^<]+)</title>', article)
+            desc_match = re.search(r'<meta name="description" content="([^"]+)"', article)
+            published_match = re.search(r'"datePublished":"([^"]+)"', article)
+            title = normalize_title(title_match.group(1).replace(" | Superhuman AI", "")) if title_match else ""
+            pub = parse_dt(published_match.group(1)) if published_match else None
+            if not title or not within_window(pub, hours):
+                continue
+            items.append(
+                {
+                    "source_id": source["id"],
+                    "source_name": source["name"],
+                    "category": source["category"],
+                    "title": title,
+                    "url": url,
+                    "published_at": pub,
+                    "summary": clean_text(desc_match.group(1))[:320] if desc_match else "",
+                }
+            )
+            if len(items) >= 6:
+                break
+        return items
+    if source["id"] == "toools_design":
+        pat = re.compile(
+            r'<a href="(/newsletter/issues/[^"]+)" class="card_global issue-highlight w-inline-block">.*?<div class="newsletter__section-label">([^<]+)</div>.*?<h3[^>]*>([^<]+)</h3>.*?<p[^>]*>([^<]+)</p>',
+            re.S,
+        )
+        seen: set[str] = set()
+        for href, published_text, title, summary in pat.findall(text):
+            if href in seen:
+                continue
+            seen.add(href)
+            url = f"https://www.toools.design{href}"
+            pub = parse_dt(published_text.strip().replace(",", ""))
+            if not title or not within_window(pub, hours * 3):
+                continue
+            items.append(
+                {
+                    "source_id": source["id"],
+                    "source_name": source["name"],
+                    "category": source["category"],
+                    "title": normalize_title(title),
+                    "url": url,
+                    "published_at": pub,
+                    "summary": clean_text(summary)[:320],
+                }
+            )
+            if len(items) >= 4:
+                break
+        return items
     if source["id"] == "the_rundown_ai":
         cards = re.findall(r'<a href="(/p/[^"]+)" class="relative z-10 h-full embla__slide__number">', text)
         seen: set[str] = set()
@@ -128,7 +244,7 @@ def fetch_html_json(source: dict, hours: int) -> list[dict]:
             title_match = re.search(r'<title>([^<]+)</title>', article)
             published_match = re.search(r'"datePublished":"([^"]+)"', article)
             desc_match = re.search(r'<meta name="description" content="([^"]+)"', article)
-            title = clean_text(title_match.group(1).replace(" | The Rundown AI", "")) if title_match else ""
+            title = normalize_title(title_match.group(1).replace(" | The Rundown AI", "")) if title_match else ""
             pub = parse_dt(published_match.group(1)) if published_match else None
             if not title or not within_window(pub, hours):
                 continue
@@ -160,7 +276,7 @@ def fetch_html_json(source: dict, hours: int) -> list[dict]:
                     "source_id": source["id"],
                     "source_name": source["name"],
                     "category": source["category"],
-                    "title": clean_text(title),
+                    "title": normalize_title(title),
                     "url": url,
                     "published_at": pub,
                     "summary": "",
@@ -190,7 +306,7 @@ def fetch_html_json(source: dict, hours: int) -> list[dict]:
                 "source_id": source["id"],
                 "source_name": source["name"],
                 "category": source["category"],
-                "title": clean_text(title),
+                "title": normalize_title(title),
                 "url": url,
                 "published_at": pub,
                 "summary": "",
@@ -225,7 +341,7 @@ def fetch_html_list(source: dict, hours: int) -> list[dict]:
                     "source_id": source["id"],
                     "source_name": source["name"],
                     "category": source["category"],
-                    "title": clean_text(title),
+                    "title": normalize_title(title),
                     "url": url,
                     "published_at": published_at,
                     "summary": "",
@@ -244,11 +360,11 @@ def fetch_html_card(source: dict, hours: int) -> list[dict]:
     )
     items: list[dict] = []
     for title_attr, href, title_text, summary, rel_time in pat.findall(text):
-        title = clean_text(title_text or title_attr)
+        title = normalize_title(title_text or title_attr)
         if not title:
             continue
         rel_time_clean = rel_time.strip()
-        published_at = parse_relative_cn(rel_time_clean)
+        published_at = parse_relative_cn(rel_time_clean) or parse_dt(rel_time_clean)
         if not within_window(published_at, hours):
             continue
         items.append(
@@ -286,7 +402,7 @@ def fetch_html_feed(source: dict, hours: int) -> list[dict]:
                 "source_id": source["id"],
                 "source_name": source["name"],
                 "category": source["category"],
-                "title": clean_text(title),
+                "title": normalize_title(title),
                 "url": href,
                 "published_at": None,
                 "summary": clean_text(summary)[:320],
@@ -328,13 +444,7 @@ def main() -> int:
         "results": results,
         "items": [item for result in results for item in result["items"]],
     }
-    out["items"].sort(
-        key=lambda item: (
-            item.get("published_at") is None,
-            item.get("published_at") or "",
-            item.get("source_name") or "",
-        )
-    )
+    out["items"].sort(key=sort_key, reverse=True)
     dump_json(STATE_DIR / "fetched.json", out)
     print(json.dumps({"sources": len(results), "items": len(out["items"])}, ensure_ascii=False))
     return 0
