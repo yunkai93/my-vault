@@ -53,10 +53,17 @@ def handle_group_message(message_id: str, user_text: str) -> None:
     log_line(f"{now_cst().isoformat()} replied group fallback: {message_id}")
 
 
-def handle_p2p_message(chat_id: str, message_id: str, user_text: str) -> None:
-    answer = ask_safe(user_text)
+def user_key_from_event(data: P2ImMessageReceiveV1) -> str:
+    sender = data.event.sender.sender_id if data.event and data.event.sender else None
+    if sender is None:
+        return "unknown"
+    return sender.open_id or sender.user_id or sender.union_id or "unknown"
+
+
+def handle_p2p_message(user_key: str, chat_id: str, message_id: str, user_text: str) -> None:
+    answer = ask_safe(user_key, user_text)
     send_text_to_chat(chat_id, answer)
-    log_line(f"{now_cst().isoformat()} replied p2p: {message_id}")
+    log_line(f"{now_cst().isoformat()} replied p2p: {message_id} user={user_key}")
 
 
 def dispatch_async(target, *args) -> None:
@@ -86,7 +93,7 @@ def do_p2_im_message_receive_v1(data: P2ImMessageReceiveV1) -> None:
         reply_text(data.event.message.message_id, "消息解析失败，请发送文本消息。")
         return
     if data.event.message.chat_type == "p2p":
-        dispatch_async(handle_p2p_message, data.event.message.chat_id, data.event.message.message_id, user_text)
+        dispatch_async(handle_p2p_message, user_key_from_event(data), data.event.message.chat_id, data.event.message.message_id, user_text)
     else:
         dispatch_async(handle_group_message, data.event.message.message_id, user_text)
     log_line(f"{now_cst().isoformat()} accepted {data.event.message.message_id}: {user_text}")

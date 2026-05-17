@@ -12,6 +12,8 @@ BOT_ROOT = ROOT / "briefing-bot"
 CONFIG_PATH = BOT_ROOT / "config" / "sources.json"
 STATE_DIR = BOT_ROOT / "state"
 LOG_DIR = BOT_ROOT / "logs"
+CHAT_STATE_DIR = STATE_DIR / "chat_sessions"
+P2P_LOG_DIR = LOG_DIR / "p2p"
 NEWS_FILE = ROOT / "news" / "AI早报.md"
 PROMPT_FILE = BOT_ROOT / "prompts" / "brief_prompt.md"
 ENV_FILE = BOT_ROOT / ".env"
@@ -25,6 +27,8 @@ def now_cst() -> datetime:
 def ensure_dirs() -> None:
     STATE_DIR.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
+    CHAT_STATE_DIR.mkdir(parents=True, exist_ok=True)
+    P2P_LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def load_env_file() -> None:
