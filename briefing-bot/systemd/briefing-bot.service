@@ -1,0 +1,11 @@
+[Unit]
+Description=AI briefing bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/wuchao/ai/my-vault
+ExecStart=/usr/bin/python3 /home/wuchao/ai/my-vault/briefing-bot/scripts/run_briefing.py
+User=wuchao
+
