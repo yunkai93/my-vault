@@ -8,4 +8,5 @@ Type=oneshot
 WorkingDirectory=/home/wuchao/ai/my-vault
 ExecStart=/usr/bin/python3 /home/wuchao/ai/my-vault/briefing-bot/scripts/run_briefing.py
 User=wuchao
-
+Environment=HOME=/home/wuchao
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
