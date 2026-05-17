@@ -1,10 +1,14 @@
 from __future__ import annotations
 
+import subprocess
+import threading
+
 import lark_oapi as lark
 from lark_oapi.api.im.v1 import P2ImMessageReceiveV1
 
-from briefing_view import compact_digest, full_brief_text, help_text, latest_take, normalize_command, sources_text, status_text
-from common import BOT_ROOT, NEWS_FILE, STATE_DIR, env, load_json, now_cst, set_env_values
+from briefing_view import help_text, normalize_command
+from chat_agent import ask_safe
+from common import BOT_ROOT, env, now_cst, set_env_values
 from feishu_app import build_client, reply_text
 
 LOG_FILE = BOT_ROOT / "logs" / "feishu-reply.log"
@@ -26,22 +30,33 @@ def extract_text(content: str) -> str:
     return (payload.get("text") or "").strip()
 
 
-def build_reply(user_text: str) -> str:
+def rerun_briefing() -> str:
+    cmd = [str(BOT_ROOT / ".venv" / "bin" / "python"), str(BOT_ROOT / "scripts" / "run_briefing.py")]
+    proc = subprocess.run(cmd, cwd=str(BOT_ROOT.parent), text=True, capture_output=True)
+    if proc.returncode != 0:
+        return "重跑失败，请稍后查看服务器日志。"
+    return "早报已重跑并尝试推送到群里。"
+
+
+def handle_group_message(message_id: str, user_text: str) -> None:
     command = normalize_command(user_text)
-    brief = load_json(STATE_DIR / "brief.json", {})
     if any(key in command for key in ["帮助", "help", "指令", "命令"]):
-        return help_text()
-    if any(key in command for key in ["简报", "digest", "摘要"]):
-        return compact_digest(brief)
-    if any(key in command for key in ["判断", "take", "观点"]):
-        return latest_take(brief)
-    if any(key in command for key in ["来源", "source"]):
-        return sources_text(brief)
-    if any(key in command for key in ["状态", "status"]):
-        return status_text(brief, env("FEISHU_CHAT_ID"))
-    if any(key in command for key in ["早报", "日报", "brief"]):
-        return full_brief_text(brief)
-    return help_text()
+        reply_text(message_id, help_text())
+        return
+    if "重跑" in command and "早报" in command:
+        reply_text(message_id, rerun_briefing())
+        return
+    reply_text(message_id, help_text())
+
+
+def handle_p2p_message(message_id: str, user_text: str) -> None:
+    answer = ask_safe(user_text)
+    reply_text(message_id, answer)
+
+
+def dispatch_async(target, *args) -> None:
+    thread = threading.Thread(target=target, args=args, daemon=True)
+    thread.start()
 
 
 def do_p2_im_message_receive_v1(data: P2ImMessageReceiveV1) -> None:
@@ -59,9 +74,11 @@ def do_p2_im_message_receive_v1(data: P2ImMessageReceiveV1) -> None:
     if not user_text:
         reply_text(data.event.message.message_id, "消息解析失败，请发送文本消息。")
         return
-    response = build_reply(user_text)
-    reply_text(data.event.message.message_id, response)
-    log_line(f"{now_cst().isoformat()} replied to {data.event.message.message_id}: {user_text}")
+    if data.event.message.chat_type == "p2p":
+        dispatch_async(handle_p2p_message, data.event.message.message_id, user_text)
+    else:
+        dispatch_async(handle_group_message, data.event.message.message_id, user_text)
+    log_line(f"{now_cst().isoformat()} accepted {data.event.message.message_id}: {user_text}")
 
 
 event_handler = (

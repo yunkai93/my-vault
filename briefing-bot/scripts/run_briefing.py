@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import shutil
 import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
@@ -22,7 +23,7 @@ def run_cmd(args: list[str], cwd: Path, check: bool = True) -> subprocess.Comple
 
 def run_step(script: str) -> None:
     path = BOT_ROOT / "scripts" / script
-    proc = run_cmd(["python3", str(path)], cwd=ROOT, check=False)
+    proc = run_cmd([sys.executable, str(path)], cwd=ROOT, check=False)
     if proc.returncode != 0:
         raise SystemExit(f"{script} failed:\n{proc.stderr or proc.stdout}")
 
