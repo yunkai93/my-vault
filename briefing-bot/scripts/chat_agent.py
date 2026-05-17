@@ -3,9 +3,9 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from common import BOT_ROOT
+from common import env
 
-SANDBOX_DIR = BOT_ROOT / "tmp" / "chat-agent"
+SANDBOX_DIR = Path(env("FEISHU_CHAT_SANDBOX_DIR", "/tmp/briefing-chat-agent"))
 PROMPT = (
     "你现在是一个纯问答聊天机器人。"
     "禁止调用任何工具，禁止访问文件，禁止执行命令，禁止联网，禁止提供服务器控制能力。"
