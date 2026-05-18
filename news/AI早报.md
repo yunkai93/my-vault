@@ -2,6 +2,55 @@
 
 这个文件只保留一个，按日期倒序追加每日 AI 资讯整理。
 
+## 2026-05-18
+
+_更新时间：2026-05-18 09:52_
+
+### 今日判断
+今天最明确的信号是：Agent 正从独立工具走向统一入口与应用内嵌，OpenAI 在收拢 ChatGPT、Codex 与 API，Hermes 和 OpenClaw 在补真实可用性，设计与开发工作流都开始围绕同一套对话式界面重排。
+
+### 智能体动态
+- [OpenAI 统一 ChatGPT、Codex 与 API 产品线](https://www.uisdc.com/news)：值得看在于 OpenAI 已把对话、编程和接口视为同一套任务入口，agent 产品后续大概率会从分散工具收敛成统一体验。（UISDC 读报）
+- [Codex 上线 ChatGPT 移动端](https://openai.com/index/work-with-codex-from-anywhere)：开发者可以跨设备查看、干预和批准任务，编码 agent 正从桌面工具变成持续在线的执行界面。（OpenAI News）
+- [Hermes Agent 0.14.0 打通本地代理、X 搜索与 Teams](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.5.16)：这一版把 OAuth 账号、OpenAI 兼容代理和团队协作链路接到一起，说明通用 agent 框架开始补齐真实团队环境里的接入层。（Hermes Agent Releases）
+- [OpenClaw beta.6 强化浏览器弹窗处理与调试](https://github.com/openclaw/openclaw/releases/tag/v2026.5.16-beta.6)：浏览器弹窗可见性、blockedByDialog 返回和设置页重构都指向同一件事：computer-use 类 agent 正在补稳定性和可调试性。（OpenClaw Releases）
+- [QQ 浏览器与元宝上线高考 AI Skill](https://www.uisdc.com/news)：官方数据直接进对话，再用卡片整理查询结果，说明应用内嵌 agent 开始替代网页检索和表格核对流程。（UISDC 读报）
+
+### 模型动态
+- [微信小程序接入 Hy3preview](https://www.uisdc.com/news)：腾讯把模型调用直接放进小程序生态，AI 能力开始像支付、登录一样成为平台内置基础设施。（UISDC 读报）
+- [苹果计划重塑 Siri，或引入 Gemini 并支持自动删记录](https://hyper.ai/cn/stories/5ffbcd2eae2ef6026bf5949e0141ffb1)：如果 WWDC 版本按计划落地，终端助手竞争会从单纯比模型能力，转向比隐私策略与系统级整合。（HyperAI）
+- [谷歌将“AI 投毒”列为违规](https://www.uisdc.com/news)：这更像 AI 搜索分发规则升级：想进入生成式回答，内容可信度和引用链路会比“喂模型技巧”更重要。（UISDC 读报）
+
+### 设计师工作流
+- [从零写好 Skill：教程与实战](https://www.uisdc.com/master-ai-skills)：值得看在于它把自定义 Skill 从概念拉到可复用流程，适合作为设计团队搭内部 AI 工具的入门参考。（UISDC 首页精选）
+- [Codex 设计师向上手教程](http://mp.weixin.qq.com/s?__biz=MjM5NTA0NjY4MA%3D%3D&mid=2659209088&idx=1&sn=54586b51f781a5816956ed0816a3f63c&chksm=bd8a9bf78afd12e12e7db03059ea5686663ca04be1b4f8545d3086edca27a3e28e8f10124b2e)：这类内容的价值不在追热点，而在提醒设计岗位开始需要会用代码代理衔接原型、自动化和交付。（UISDC AI头条）
+- [精准搜索词插件切入参考图检索](https://www.uisdc.com/pinspark)：它解决的是素材检索这个高频前置环节，说明设计侧 AI 工具开始往“更快获得可用输入”这一步下沉。（UISDC 首页精选）
+- [Android 17 押注智能体式交互](https://www.uisdc.com/android-17-gemini-intelligence)：对设计师更值得看的是交互范式变化：跨应用代办若成默认能力，界面和任务流的组织方式都会被重画。（UISDC 首页精选）
+
+### 快速雷达
+- [Codex 为 Windows 提供安全沙箱](https://openai.com/index/building-codex-windows-sandbox)：这不是小修补，它关系到 coding agent 能否进入更常见的企业终端环境。（OpenAI News）
+- [越来越多应用正把自己做成 AI Agent](https://newsletter.futurepedia.io/p/your-favorite-apps-are-turning-into-ai-agents-05-15-2026)：这条更像今天的行业底色：产品竞争正在从外挂聊天框，转向把 agent 直接做进主流程。（Futurepedia Newsletter）
+- [Codex 走强，Claude 开始计量化程序调用](https://www.latent.space/p/ainews-codex-rises-claude-meters)：这是一条侧面信号：coding agent 的竞争开始延伸到程序化调用和计费方式，商业化边界正在变得更清晰。（Latent Space）
+- [长上下文模型开始系统性压成本](https://magazine.sebastianraschka.com/p/recent-developments-in-llm-architectures)：从 Gemma 4 到 DeepSeek V4 的共同方向，是用新架构降低长上下文开销，模型竞赛正在转向可负担的推理效率。（Ahead of AI）
+
+### 值得跟进
+- OpenAI 下一步是否会把 ChatGPT、Codex 与 API 的权限、记忆和计费体系真正打通。
+- Hermes、OpenClaw 这类 agent 框架能否把 browser/computer-use 的稳定性做成默认能力，而不只停留在演示。
+- 微信小程序接入混元后，是否会出现可规模化复用的应用内 agent 模板。
+- Google 新规会不会改变品牌做 AI 搜索曝光和 GEO 服务的常见打法。
+- 设计团队会不会从“会用生成工具”进一步转向“会搭 Skill、会用 Codex 做自动化”。
+
+### 来源参考
+- UISDC 读报
+- OpenAI News
+- Hermes Agent Releases
+- OpenClaw Releases
+- HyperAI
+- UISDC 首页精选
+- UISDC AI头条
+- Futurepedia Newsletter
+- Latent Space
+- Ahead of AI
 ## 2026-05-17
 
 _更新时间：2026-05-17 21:31_
