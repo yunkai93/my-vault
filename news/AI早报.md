@@ -2,6 +2,53 @@
 
 这个文件只保留一个，按日期倒序追加每日 AI 资讯整理。
 
+## 2026-05-19
+
+_更新时间：2026-05-19 09:50_
+
+### 今日判断
+今天最主要的行业信号是，AI 正从生成演示走向交付闭环：前端把设计和原型直接连到工程文件，后端把 agent 的跨端运行、接入与审批做成基础设施。
+
+### 智能体动态
+- [Codex 接入 ChatGPT 移动端，编码任务可跨设备审批](https://openai.com/index/work-with-codex-from-anywhere)：值得看的是编码 agent 开始脱离桌面 IDE：用户可在手机上实时查看、干预和批准远端任务，异步协作形态更清晰。（OpenAI News）
+- [Hermes Agent 发布 Foundation 版本，开始做统一代理层](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.5.16)：这一版把本地 OpenAI 兼容代理、Grok OAuth 接入、X 搜索工具和 Teams 链路打包到一起，说明 agent 基础设施正在从单工具转向可复用的平台层。（Hermes Agent Releases）
+- [OpenClaw 新版把重心放到可维护性和部署细节](https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.1)：比起堆新功能，这次更新更强调有边界的重构、Node 版本基线、镜像构建参数和重启追踪，反映 agent 项目开始补工程化短板。（OpenClaw Releases）
+- [Codex 走强、Claude 计量化，编码 agent 进入运营阶段](https://www.latent.space/p/ainews-codex-rises-claude-meters)：这条观察值得看的是商业化信号：Codex 走强、Claude 开始计量程序化使用，编码 agent 已从能力比拼进入用量治理和产品化阶段。（Latent Space）
+
+### 模型动态
+- [xAI 完成新版 Grok 基础模型训练，准备补齐编程短板](https://www.uisdc.com/news)：这条最值得看的是 xAI 直接把 Cursor 代码数据和后续 SFT、RL 调优摆上台面，模型竞争正在回到代码理解和 agent 体验。（UISDC 读报）
+- [Hermes 把 Grok 4.3 接入为一等 provider](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.5.16)：Hermes 新版把 SuperGrok OAuth 作为一等提供方接入，并把 grok-4.3 提到 100 万上下文，平台分发能力开始影响模型可用性。（Hermes Agent Releases）
+- [长上下文降本继续推进到新一轮开源模型架构](https://magazine.sebastianraschka.com/p/recent-developments-in-llm-architectures)：值得看的是它讨论的不是单个模型发布，而是从 Gemma 4 到 DeepSeek V4 的 KV sharing、mHC 与压缩注意力，长上下文成本正成为架构竞争点。（Ahead of AI）
+
+### 设计师工作流
+- [腾讯 Ardot 公测，把 AI 设计直接接到代码交付](https://www.uisdc.com/news)：真正的变化不是一句话出稿，而是把团队组件库、Figma 导入、可编辑设计稿、CodeBuddy 还原代码和 MCP IDE 串成一条链，设计到研发交接被产品化了。（UISDC 读报）
+- [阿里 QoderWork 上线设计工作台，设计产物直接变工程文件](https://www.uisdc.com/news)：它把语音输入、追问澄清、无限画布和细节微调放在前面，最后交付的是可运行、可编辑并能进 IDE 的工程文件，静态稿正在失去中心位置。（UISDC 读报）
+- [腾讯吐司上安卓，AI 原型从静态演示走向真机试用](https://www.uisdc.com/news)：值得看的是它把自然语言生成、原型预览、APK 打包和分享放进同一流程，产品想法可以更早在手机里被真实体验。（UISDC 读报）
+- [LibTV 团队版把 AI 视频工具推向协作场景](http://mp.weixin.qq.com/s?__biz=MjM5NTA0NjY4MA%3D%3D&mid=2659209292&idx=1&sn=4e947366565169cd765c7c0abe5236b5&chksm=bd8a843b8afd0d2d45b4dd870e186481b6cc684eea83a6461ee3d695c824693f8cc3a398e577)：核心信号不是又一款生成工具，而是 AI 视频开始进入团队版和真实项目实测阶段，关注点从单条出片转向协同生产。（UISDC AI头条）
+- [MiniMaxHub 把 AI 视频生成接到剪辑导出](http://mp.weixin.qq.com/s?__biz=MjM5NTA0NjY4MA%3D%3D&mid=2659209230&idx=1&sn=a5f68a963b2687b9461384688a08003c&chksm=bd8a84798afd0d6fbf6710fe3897ab4727a0092870c3190469ecaa161327e867252797fbd9ad)：这类更新的价值在后半程：生成结果可一键导出到剪辑流程，说明视频工具开始补齐从出片到后期再到发布的断层。（UISDC AI头条）
+
+### 快速雷达
+- [应用内嵌 agent 成为一条清晰产品线](https://newsletter.futurepedia.io/p/your-favorite-apps-are-turning-into-ai-agents-05-15-2026)：值得看的是 agent 不再总以独立聊天框出现，而是开始嵌回常用应用成为原生操作层，后续差异会落在接入深度。（Futurepedia Newsletter）
+- [Claude 的专业差异点开始落到交互细节](https://www.uisdc.com/claude-2)：这篇中文体验文的价值在于提醒读者，AI 产品竞争正在从“会不会做”转向“专业用户用起来顺不顺手”。（UISDC 首页精选）
+- [模型发布越来越受评估与地缘变量影响](https://www.deeplearning.ai/the-batch/issue-353)：这一期把 Meta 的 agent 野心受阻和美国评估即将发布的模型放在一起看，提醒读者模型发布已越来越受外部约束影响。（The Batch）
+
+### 值得跟进
+- 腾讯 Ardot 和阿里 QoderWork 后续是否会开放更完整的组件库、设计系统与研发环境接入范围。
+- xAI 新版 Grok 公开后，Cursor 代码数据补训能否真正改进编程体验，而不只是参数和上下文窗口扩张。
+- Codex 移动端、Hermes 本地代理与 OpenClaw 工程化更新，是否会把“远端运行 + 跨端审批 + 本地接入”变成编码 agent 标配。
+- AI 视频工具下一步能否继续补齐多人协作、版本管理、剪辑导出与交付规范。
+
+### 来源参考
+- OpenAI News
+- Hermes Agent Releases
+- OpenClaw Releases
+- Latent Space
+- UISDC 读报
+- UISDC AI头条
+- Ahead of AI
+- Futurepedia Newsletter
+- UISDC 首页精选
+- The Batch
 ## 2026-05-18
 
 _更新时间：2026-05-18 09:52_
