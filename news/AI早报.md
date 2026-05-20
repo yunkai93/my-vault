@@ -2,6 +2,52 @@
 
 这个文件只保留一个，按日期倒序追加每日 AI 资讯整理。
 
+## 2026-05-20
+
+_更新时间：2026-05-20 09:50_
+
+### 今日判断
+今天最明确的信号是：Google 正把模型、Agent 和创意工具一起推向“可执行工作流”层，同时代码助手与设备侧 Agent 也在加速补齐自有模型、代理层和本地记忆能力。
+
+### 智能体动态
+- [Gemini 智能体开始从聊天入口走向任务执行](https://hyper.ai/cn/stories/849677abbb40b4ce7ea269f1d8bc4dd2)：Google I/O 这波更值得看的不是再发一个模型，而是把自主服务、自动购物和搜索界面改造一起推出，说明 Gemini 正在从助手形态走向可嵌入生活与工作流的执行层。（HyperAI）
+- [OpenClaw beta.2 收紧 Agent 工程边界](https://github.com/openclaw/openclaw/releases/tag/v2026.5.19-beta.2)：这次更新重点不是堆新功能，而是把修复默认收敛到有边界的重构，并补上插件 SDK/API 弃用路径、Node 22.19 基线和运行时镜像参数，项目在往可维护的工程化形态走。（OpenClaw Releases）
+- [Hermes Agent 把 OAuth 订阅能力接成通用 Agent 端点](https://github.com/NousResearch/hermes-agent/releases/tag/v2026.5.16)：v0.14.0 最值得看的是本地 OpenAI 兼容代理：把 Claude Pro、ChatGPT Pro、SuperGrok 这类账号能力变成 Codex、Aider、Cline、Continue 可直连的端点，降低多 Agent 工具接入门槛。（Hermes Agent Releases）
+- [联想把个人 AI Agent 往设备层下沉](https://www.uisdc.com/news)：天禧 AI 4.0 把本地记忆、个人知识库、模型广场和技能广场放进系统层，重点信号是个人资料处理、权限与离线执行开始在设备侧形成统一入口。（UISDC 读报）
+
+### 模型动态
+- [Gemini 3.5 把“会做题”继续推向“会动手”](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5)：Google 官方把这一代模型概括为 frontier intelligence with action，核心信号是主流模型发布已不再只拼能力上限，而是把行动能力写进主规格。（Google AI Blog）
+- [Gemini Omni 把视频修改纳入对话式多模态模型](https://www.uisdc.com/news)：Omni 能直接处理文字、图像、视频和音频，并用自然语言改动视频角色、背景等元素，意味着视频试错开始从剪辑软件流程前移到模型指令层。（UISDC 读报）
+- [Cursor 用 Composer 2.5 把代码模型前移到自家底座](https://www.uisdc.com/news)：它基于 Kimi K2.5 微调，并把大部分训练预算压到强化学习与扩展训练上，意义不只在跑分接近顶级模型，而在于代码助手厂商开始自己掌握核心模型与成本结构。（UISDC 读报）
+- [长上下文模型继续往低成本结构演进](https://magazine.sebastianraschka.com/p/recent-developments-in-llm-architectures)：从 Gemma 4 到 DeepSeek V4，这篇梳理把行业焦点放在 KV Sharing、mHC 和压缩注意力上，说明开源模型竞争正在从参数规模转向上下文效率。（Ahead of AI）
+
+### 设计师工作流
+- [Flow 把多镜头视频修改收进同一套对话式工作流](https://www.uisdc.com/news)：Google 把 Gemini Omni Flash 接进 Flow 后，角色一致性、剧情改写、批量改稿和工具复用都被拉到一个平台里，视频团队的关键变化是从单段生成转向可持续迭代的项目流。（UISDC 读报）
+- [GPT + Figma 的价值在于把视觉探索和交付拆开跑](https://www.uisdc.com/ai-design-flow-3)：这篇实操拆的不是“AI 一键出 UI”，而是先用 GPT 扩展思路，再回到 Figma 完成交付，适合今天仍要兼顾速度和可落地性的设计团队。（UISDC 首页精选）
+- [Claude Design 提示开始向设计规范化靠拢](https://www.uisdc.com/claude-design-2)：这条内容的启发不在术语清单本身，而在于把 Claude 的界面生成从随手试图转向可复用的设计语言约束，减少“能生成但不好用”的落差。（UISDC 首页精选）
+- [LibTV 团队版把 AI 视频往项目协作方向拉](http://mp.weixin.qq.com/s?__biz=MjM5NTA0NjY4MA%3D%3D&mid=2659209292&idx=1&sn=4e947366565169cd765c7c0abe5236b5&chksm=bd8a843b8afd0d2d45b4dd870e186481b6cc684eea83a6461ee3d695c824693f8cc3a398e577)：这类“AI 视频团队版”更值得关注的不是单条素材效果，而是它是否开始承担真实项目中的协作角色，说明视频生成工具正在向项目级生产界面演化。（UISDC AI头条）
+
+### 快速雷达
+- [Google Beam Lab 试探实时数字人交互](https://hyper.ai/cn/stories/e659df62426ba64aebe88ffc26c8fcef)：演示还不成熟，但多语言交互加全息式呈现说明 Google 仍在把视频通信改造成实时 AI 界面，这条更适合继续观察产品化速度。（HyperAI）
+- [Anthropic 的估值叙事转向“信任溢价”](https://www.uisdc.com/the-trust-premium)：这不是产品更新，但它提示市场正在把边界管理与拒绝能力当成商业价值，而不只是安全团队的附属议题。（UISDC 首页精选）
+- [编程 Agent 赛道开始进入长期格局跟踪期](https://www.latent.space/p/ainews-codex-rises-claude-meters)：Latent Space 把 Codex、Claude 一类编程 Agent 当成长期趋势来写，本身就说明这个赛道已从新鲜功能竞争转向持续格局观察。（Latent Space）
+
+### 值得跟进
+- Gemini 3.5 与 Gemini Omni 的 API 开放节奏和价格，决定它们会不会从发布会能力变成第三方工作流标准件。
+- Flow 对角色一致性、批量改稿和 Agent 规划的实际稳定度，决定视频团队是否真会把更多后期流程收回平台内。
+- Cursor、OpenClaw、Hermes 这类代码 Agent/平台是否继续把能力前移到自有模型、代理层和插件生态。
+- 设备侧 Agent 的本地记忆与个人知识库如何处理权限、同步和离线体验，会影响它能否真正进入日常生产。
+
+### 来源参考
+- HyperAI
+- OpenClaw Releases
+- Hermes Agent Releases
+- Google AI Blog
+- UISDC 读报
+- UISDC 首页精选
+- UISDC AI头条
+- Ahead of AI
+- Latent Space
 ## 2026-05-19
 
 _更新时间：2026-05-19 09:50_
