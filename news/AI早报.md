@@ -2,6 +2,54 @@
 
 这个文件只保留一个，按日期倒序追加每日 AI 资讯整理。
 
+## 2026-05-21
+
+_更新时间：2026-05-21 09:50_
+
+### 今日判断
+今天的主线很清楚：Agent 正在从聊天框升级为云端后台、系统入口和工程基础设施，设计与内容工具则开始拿协作、周期和预算指标证明自己能进正式生产。
+
+### 智能体动态
+- [OpenClaw beta 补上策略治理与语音能力](https://github.com/openclaw/openclaw/releases/tag/v2026.5.20-beta.1)：这次版本把 Discord 语音跟随与交接、默认上下文文件注入、Policy 插件、doctor lint 和按 agent 开启 lean local model 一并补上，说明开源 agent 已经从“能跑”转向“能管、能实时用”。（OpenClaw Releases）
+- [Gemini Spark 把 agent 变成云端常驻任务层](https://www.uisdc.com/news)：Spark 可在电脑关闭后继续处理 Gmail、Docs、Sheets 和 MCP 应用任务，高风险动作仍需确认，值得看的是 agent 正从对话工具变成后台执行层。（UISDC 读报）
+- [腾讯马维斯把系统级助手做成统一指令层](https://www.uisdc.com/news)：Windows、Mac 和安卓同步上线，本地与云端模型路由、文件理解、桌面操控手机和离线能力被放到系统层，信号是 agent 正在向操作系统入口收拢。（UISDC 读报）
+- [Ramp 用 Codex 把代码评审压到分钟级](https://openai.com/index/ramp)：OpenAI 披露 Ramp 工程团队用 Codex 配合 GPT-5.5 做 code review，这类案例说明代码 agent 的价值开始落在日常评审反馈，而不只是写第一版代码。（OpenAI News）
+- [Railway 把云平台直接改写成 agent-native](https://www.latent.space/p/railway)：“Agent-Native Cloud”把 3M 用户、每周 10 万注册和 20 万美元以上 coding agent 支出放在一起，显示基础设施层已经开始围绕 agent 的部署方式和协作流程重构产品。（Latent Space）
+
+### 模型动态
+- [Gemini 3.5 把前沿能力和 action 绑定在一起](https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5)：Google 直接把 Gemini 3.5 定义成兼具 frontier intelligence 与 action 的模型系列，模型竞争焦点正从回答质量转向工具调用和任务执行。（Google AI Blog）
+- [OpenAI 模型反证 80 年离散几何猜想](https://openai.com/index/model-disproves-discrete-geometry-conjecture)：这不是普通 benchmark 新闻，OpenAI 把数学研究发现作为官方成果发布，模型能力正在被包装成科研生产力与声誉事件。（OpenAI News）
+- [OpenAI 向 YC 创业公司投放 200 万美元令牌换未来股权](https://hyper.ai/cn/stories/7e693c7c2091bd70addc773e619539d7)：算力补贴开始和股权绑定，平台竞争已从模型能力与 API 价格延伸到用资本工具锁定创业生态。（HyperAI）
+
+### 设计师工作流
+- [LibTV 团队版实测：AI 视频开始对标协作软件](http://mp.weixin.qq.com/s?__biz=MjM5NTA0NjY4MA%3D%3D&mid=2659209292&idx=1&sn=4e947366565169cd765c7c0abe5236b5&chksm=bd8a843b8afd0d2d45b4dd870e186481b6cc684eea83a6461ee3d695c824693f8cc3a398e577)：这类“团队版真实项目实测”比单个出片案例更值得看，因为它直接对应设计与内容团队是否愿意把 AI 视频工具放进正式协作流程。（UISDC AI头条）
+- [AI 品牌样机教程把出图经验变成可复用流程](https://www.uisdc.com/ai-brand-mockup)：它把提示词与过程直接交代出来，价值在于把品牌手册延展和样机补场景这类高频任务，压缩成设计师可复用的方法。（UISDC 首页精选）
+- [Seedance 2.0 让 AI 长片出现可量化制作基准](https://www.uisdc.com/news)：15 人、14 天、95 分钟、成本低于 50 万美元的案例，让视频与品牌团队第一次能用片长、周期和预算判断模型是否适合正式制作。（UISDC 读报）
+- [Stability Audio 3.0 开始按部署与版权分层](https://www.uisdc.com/news)：本地小模型、最长 6 分 20 秒乐曲，以及开源和 API/托管并行，说明音频生成正从试玩走向按版权、部署和预算拆分的生产工具。（UISDC 读报）
+
+### 快速雷达
+- [Google I/O 2026 中文速览](https://www.uisdc.com/google-i-o-2026)：如果只看一篇中文总览，这篇把 3.5 Flash、24 小时云端 agent 与搜索、电商更新放在同一条主线上，方便判断 Google 这次 I/O 的产品重心。（UISDC 首页精选）
+- [长上下文成本优化进入新一轮架构竞赛](https://magazine.sebastianraschka.com/p/recent-developments-in-llm-architectures)：从 Gemma 4 到 DeepSeek V4，这篇深读把 KV sharing、mHC 和压缩注意力并排来看，适合补足开源模型为何都在盯长上下文成本。（Ahead of AI）
+- [监管、出海与医疗应用开始一起改写模型议程](https://www.deeplearning.ai/the-batch/issue-353)：同一期把 Meta agent 受阻、美国评估即将发布模型和 AI 诊断乳腺 X 光放在一起，适合快速补齐模型叙事之外的监管与行业变量。（The Batch）
+
+### 值得跟进
+- Gemini Spark 的 MCP 接入范围和高风险动作确认机制，决定它是演示级 agent 还是能长期跑的后台流程。
+- OpenClaw 的 Policy 插件、doctor lint 和本地 lean model 模式，能否把开源 agent 从好玩推到可治理。
+- Codex 在 Ramp 的评审实践会不会带动更多团队重写 PR 与 review 流程。
+- Seedance 2.0、LibTV 这类视频工具接下来是否出现更多中文团队真实项目拆解，而不只是单次案例。
+- OpenAI 用令牌换股权后，Anthropic、Google 等平台会不会跟进更强的生态绑定策略。
+
+### 来源参考
+- OpenClaw Releases
+- UISDC 读报
+- OpenAI News
+- Latent Space
+- Google AI Blog
+- HyperAI
+- UISDC AI头条
+- UISDC 首页精选
+- Ahead of AI
+- The Batch
 ## 2026-05-20
 
 _更新时间：2026-05-20 09:50_
